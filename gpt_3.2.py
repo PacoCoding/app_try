@@ -1,6 +1,5 @@
 #%% Import Streamlit and Libraries
 import streamlit as st
-from dotenv import load_dotenv
 from PyPDF2 import PdfReader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.embeddings import OpenAIEmbeddings
@@ -10,7 +9,7 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
 from docx import Document  # Import the python-docx library
 import os
-#The Key is Loaded succesfully :)))))))
+
 #%% Function to get text from PDFs
 def get_pdf_text(pdf_docs):
     text = ""
@@ -26,23 +25,24 @@ def get_pdf_text(pdf_docs):
 # Function to split text into chunks
 def get_text_chunks(text):
     text_splitter = CharacterTextSplitter(
-                                    separator="\n",
-                                    chunk_size=1000,
-                                    chunk_overlap=200,
-                                    length_function=len
-                                    )
+        separator="\n",
+        chunk_size=1000,
+        chunk_overlap=200,
+        length_function=len
+    )
     chunks = text_splitter.split_text(text)
     return chunks
-    
+
 # Function to create a vector store
-def get_vectorstore(text_chunks):  
-    embeddings = OpenAIEmbeddings()  # Pass the API key
+def get_vectorstore(text_chunks):
+    # Initialize OpenAI embeddings (key is already set in the environment)
+    embeddings = OpenAIEmbeddings()
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
     return vectorstore
 
 # Function to create the conversational chain
 def get_conversation_chain(vectrostore):
-    llm = ChatOpenAI(model_name="gpt-4", temperature=0.1)
+    llm = ChatOpenAI(model_name="gpt-4", temperature=0.1)  # Key automatically picked up from the environment
     memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True)
     conversation_chain = ConversationalRetrievalChain.from_llm(
         llm=llm,
@@ -89,7 +89,11 @@ st.set_page_config(page_title='Chat with multiple PDFs', page_icon=':book:')
 
 # Define Main Function
 def main():
-    openai_api_key = st.secrets["OpenAI_key"]
+    # Set the OpenAI API key as an environment variable
+    os.environ["OPENAI_API_KEY"] = st.secrets["OpenAI_key"]
+
+    # Debugging (optional): Confirm the key is set
+    st.write(f"API Key loaded successfully (masked): {os.environ['OPENAI_API_KEY'][:5]}...")
 
     if 'conversation' not in st.session_state:
         st.session_state.conversation = None
@@ -109,7 +113,7 @@ def main():
         pdf_docs = st.file_uploader('Upload your PDFs here and click on Process', 
                                     accept_multiple_files=True)
         if st.button('Process'):
-            with st.spinner('Processing'): # Tell that the model is working
+            with st.spinner('Processing'):  # Tell that the model is working
                 # Get PDF text
                 raw_text = get_pdf_text(pdf_docs)
                 
@@ -126,5 +130,3 @@ def main():
 # Entry Point
 if __name__ == '__main__':
     main()
-
-# %%
