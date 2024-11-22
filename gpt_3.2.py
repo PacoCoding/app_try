@@ -39,9 +39,8 @@ def get_text_chunks(text):
     return chunks
     
 # Function to create a vector store
-def get_vectorstore(text_chunks):
-    openai_api_key = st.secrets["OpenAI_key"]  # Retrieve API key from st.secrets
-    embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)  # Pass the API key
+def get_vectorstore(text_chunks):  
+    embeddings = OpenAIEmbeddings()  # Pass the API key
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
     return vectorstore
 
@@ -126,7 +125,7 @@ def main():
                 vectrostore = get_vectorstore(text_chunks)
 
                 # Create conversation chain
-                st.session_state.conversation = get_conversation_chain(vectrostore,openai_api_key)
+                st.session_state.conversation = get_conversation_chain(vectrostore)
 
 # Entry Point
 if __name__ == '__main__':
