@@ -10,12 +10,8 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.chat_models import ChatOpenAI
 from docx import Document  # Import the python-docx library
 import os
-
+#The Key is Loaded succesfully :)))))))
 #%% Function to get text from PDFs
-if "OpenAI_key" not in st.secrets or not st.secrets["OpenAI_key"]:
-    st.error("OpenAI API key is missing or not set in st.secrets!")
-else:
-    st.write("API key loaded successfully")
 def get_pdf_text(pdf_docs):
     text = ""
     for pdf in pdf_docs:
