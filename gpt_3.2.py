@@ -35,13 +35,13 @@ def get_text_chunks(text):
     return chunks
     
 # Function to create a vector store
-def get_vectorstore(text_chunks):   
+def get_vectorstore(text_chunks,openai_api_key):   
     embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
     return vectorstore
 
 # Function to create the conversational chain
-def get_conversation_chain(vectrostore):
+def get_conversation_chain(vectrostore,openai_api_key):
     llm = ChatOpenAI(model_name="gpt-4", temperature=0.1)
     memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True)
     conversation_chain = ConversationalRetrievalChain.from_llm(
