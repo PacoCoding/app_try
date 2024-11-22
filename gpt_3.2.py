@@ -12,7 +12,7 @@ from docx import Document  # Import the python-docx library
 import os
 
 #%% Function to get text from PDFs
-
+openai_api_key = st.secrets["openai"]["api_key"]
 def get_pdf_text(pdf_docs):
     text = ""
     for pdf in pdf_docs:
