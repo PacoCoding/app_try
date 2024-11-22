@@ -35,13 +35,13 @@ def get_text_chunks(text):
     return chunks
     
 # Function to create a vector store
-def get_vectorstore(text_chunks,openai_api_key):   
-    embeddings = OpenAIEmbeddings(openai_api_key)
+def get_vectorstore(text_chunks):   
+    embeddings = OpenAIEmbeddings()
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
     return vectorstore
 
 # Function to create the conversational chain
-def get_conversation_chain(vectrostore,openai_api_key):
+def get_conversation_chain(vectrostore):
     llm = ChatOpenAI(model_name="gpt-4", temperature=0.1)
     memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True)
     conversation_chain = ConversationalRetrievalChain.from_llm(
@@ -118,10 +118,10 @@ def main():
                 st.write(text_chunks)
 
                 # Create our vector store with embeddings
-                vectrostore = get_vectorstore(text_chunks,openai_api_key)
+                vectrostore = get_vectorstore(text_chunks)
 
                 # Create conversation chain
-                st.session_state.conversation = get_conversation_chain(vectrostore,openai_api_key)
+                st.session_state.conversation = get_conversation_chain(vectrostore)
 
 # Entry Point
 if __name__ == '__main__':
