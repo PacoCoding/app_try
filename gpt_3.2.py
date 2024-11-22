@@ -12,7 +12,7 @@ from docx import Document  # Import the python-docx library
 import os
 
 #%% Function to get text from PDFs
-openai_api_key = st.secrets["openai"]["api_key"]
+
 def get_pdf_text(pdf_docs):
     text = ""
     for pdf in pdf_docs:
@@ -90,7 +90,7 @@ st.set_page_config(page_title='Chat with multiple PDFs', page_icon=':book:')
 
 # Define Main Function
 def main():
-    load_dotenv()
+    openai_api_key = st.secrets["openai"]["api_key"]
 
     if 'conversation' not in st.session_state:
         st.session_state.conversation = None
