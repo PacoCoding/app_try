@@ -5,4 +5,4 @@ langchain
 faiss-cpu
 openai
 python-docx
-
+langchain-community
