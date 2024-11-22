@@ -36,8 +36,8 @@ def get_text_chunks(text):
     
 # Function to create a vector store
 def get_vectorstore(text_chunks):
-    openai_api_key = st.secrets["OpenAI_key"]
-    embeddings = OpenAIEmbeddings()
+    openai_api_key = st.secrets["OpenAI_key"]  # Retrieve API key from st.secrets
+    embeddings = OpenAIEmbeddings(openai_api_key=openai_api_key)  # Pass the API key
     vectorstore = FAISS.from_texts(texts=text_chunks, embedding=embeddings)
     return vectorstore
 
