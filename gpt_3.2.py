@@ -55,20 +55,6 @@ def get_conversation_chain(vectrostore):
     return conversation_chain
 
 # Function to save response to a Word file
-def save_to_word(question, response, file_name="response.docx"):
-    # Check if file already exists
-    if os.path.exists(file_name):
-        doc = Document(file_name)  # Open existing document
-    else:
-        doc = Document()  # Create a new document if it doesn't exist
-
-    # Add question and response to the document
-    doc.add_heading("Q: " + question, level=2)
-    doc.add_paragraph("A: " + response)
-    doc.add_paragraph("\n")  # Add spacing between entries
-
-    # Save the document
-    doc.save(file_name)
 
 # Function to handle user input
 def handle_userinput(user_question):
