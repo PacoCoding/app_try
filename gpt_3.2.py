@@ -69,9 +69,6 @@ def handle_userinput(user_question):
     # Display the response in Streamlit
     st.write(answer)
 
-    # Save the question and response to a Word file
-    save_to_word(user_question, answer)
-    st.success(f"The response has been saved to 'response.docx'.")
 
 # Set Page Configuration
 st.set_page_config(page_title='Chat with multiple PDFs', page_icon=':book:')
